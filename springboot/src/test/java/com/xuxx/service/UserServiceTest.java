@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.xuxx.entity.User;
+import com.xuxx.entity.UserInfo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,25 +26,24 @@ public class UserServiceTest {
 
 	@Test
 	public void testDelete() {
-		List<User> users = userService.findAll();
-		for (User user : users) {
+		List<UserInfo> users = userService.findAll();
+		for (UserInfo user : users) {
 			userService.delete(user);
 		}
 	}
 
 	@Test
 	public void testSave() {
-		User user = new User();
-		user.setAge(27);
+		UserInfo user = new UserInfo();
 		user.setName("xuxx");
-		User saveUser = userService.save(user);
+		UserInfo saveUser = userService.save(user);
 		System.err.println(saveUser.toString());
 	}
 
 	@Test
 	public void testFindAll() {
-		List<User> users = userService.findAll();
-		for (User user : users) {
+		List<UserInfo> users = userService.findAll();
+		for (UserInfo user : users) {
 			System.err.println(user.toString());
 		}
 	}
