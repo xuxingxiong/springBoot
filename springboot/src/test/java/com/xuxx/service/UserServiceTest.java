@@ -25,6 +25,23 @@ public class UserServiceTest {
 	}
 
 	@Test
+	public void testDelete() {
+		List<User> users = userService.findAll();
+		for (User user : users) {
+			userService.delete(user);
+		}
+	}
+
+	@Test
+	public void testSave() {
+		User user = new User();
+		user.setAge(27);
+		user.setName("xuxx");
+		User saveUser = userService.save(user);
+		System.err.println(saveUser.toString());
+	}
+
+	@Test
 	public void testFindAll() {
 		List<User> users = userService.findAll();
 		for (User user : users) {
