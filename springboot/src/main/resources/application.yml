@@ -7,6 +7,7 @@ spring:
     jpa:
         database: MYSQL
         show-sql: true
+        open-in-view: true
         hibernate:
             ddl-auto: update
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy

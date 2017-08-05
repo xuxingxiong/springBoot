@@ -1,5 +1,8 @@
 package com.xuxx.shiro;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -47,34 +50,28 @@ public class MyShiroRealm extends AuthorizingRealm {
 		// 通过username从数据库中查找 User对象，如果找到，没找到.
 		// 实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
 		UserInfo userInfo = userInfoService.findByUsername(username);
-		System.out.println("----->>userInfo=" + userInfo);
 		if (userInfo == null) {
 			return null;
 		}
-
-		/*
-		 * 获取权限信息:这里没有进行实现， 请自行根据UserInfo,Role,Permission进行实现；
-		 * 获取之后可以在前端for循环显示所有链接;
-		 */
-		// userInfo.setPermissions(userService.findPermissions(user));
-
-		// 账号判断;
+		logger.info("----->>UserInfo=" + userInfo.toString());
+		if (userInfo.getRoleList() != null) {
+			userInfo.getRoleList().forEach(role -> {
+				logger.info("----->>SysRole=" + role.toString());
+				if (role.getPermissions() != null) {
+					role.getPermissions().forEach(permission -> {
+						logger.info("----->>Permissions=" + permission.toString());
+					});
+				}
+			});
+		}
 
 		// 加密方式;
 		// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
-		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, // 用户名
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, // 用户名
 				userInfo.getPassword(), // 密码
 				ByteSource.Util.bytes(userInfo.getCredentialsSalt()), // salt=username+salt
 				getName() // realm name
 		);
-
-		// 明文: 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
-		// SimpleAuthenticationInfo authenticationInfo = new
-		// SimpleAuthenticationInfo(
-		// userInfo, //用户名
-		// userInfo.getPassword(), //密码
-		// getName() //realm name
-		// );
 
 		return authenticationInfo;
 	}
@@ -99,10 +96,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 		logger.info("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
 
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		UserInfo userInfo = (UserInfo) principals.getPrimaryPrincipal();
+		String username = (String) principals.getPrimaryPrincipal();
 
 		// 实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-		// UserInfo userInfo = userInfoService.findByUsername(username)
+		UserInfo userInfo = userInfoService.findByUsername(username);
 
 		// 权限单个添加;
 		// 或者按下面这样添加
@@ -138,13 +135,13 @@ public class MyShiroRealm extends AuthorizingRealm {
 	 * @param permissions
 	 * @return
 	 */
-	// public Set<String> getStringPermissions(Set<SysPermission> permissions){
-	// Set<String> stringPermissions = new HashSet<String>();
-	// if(permissions != null){
-	// for(SysPermission p : permissions) {
-	// stringPermissions.add(p.getPermission());
-	// }
-	// }
-	// return stringPermissions;
-	// }
+	public Set<String> getStringPermissions(Set<SysPermission> permissions) {
+		Set<String> stringPermissions = new HashSet<String>();
+		if (permissions != null) {
+			for (SysPermission p : permissions) {
+				stringPermissions.add(p.getPermission());
+			}
+		}
+		return stringPermissions;
+	}
 }

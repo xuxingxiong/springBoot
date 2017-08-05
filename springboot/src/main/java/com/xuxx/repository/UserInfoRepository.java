@@ -6,6 +6,12 @@ import com.xuxx.entity.UserInfo;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 
-	/** 通过username查找用户信息; */
+	/**
+	 * 通过用户名查找用户信息
+	 * 
+	 * @param username
+	 *            用户名
+	 * @return 用户信息
+	 */
 	public UserInfo findByUsername(String username);
 }

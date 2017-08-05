@@ -14,6 +14,11 @@ public class SpringbootApplication {
 		return "/login";
 	}
 
+	@GetMapping(value = "/index")
+	public String index() {
+		return "/index";
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
 	}

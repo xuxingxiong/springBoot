@@ -1,9 +1,15 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8" />
     <title>index</title>
 </head>
 <body>
-<div>index</div>
+<div>
+	<span shiro:authenticated="true" >
+    	<span>欢迎您：<shiro:principal/></span>
+	</span>
+	<a shiro:hasRole="admin" th:href="@{userInfo/userAdd}">addUser</a>
+</div>
 </body>
 </html>
