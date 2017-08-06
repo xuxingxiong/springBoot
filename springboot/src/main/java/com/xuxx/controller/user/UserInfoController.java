@@ -1,10 +1,18 @@
 package com.xuxx.controller.user;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.xuxx.entity.UserInfo;
 
 @Controller
 @RequestMapping("/userInfo")
@@ -17,8 +25,19 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping("/userList")
-	public String userInfo() {
-		return "userInfo";
+	@ResponseBody
+	public Map<String, Object> userInfo() {
+		Map<String, Object> data = new HashMap<String, Object>();
+		List<UserInfo> userList = new ArrayList<UserInfo>();
+		UserInfo userInfo = new UserInfo();
+		userInfo.setName("xuxx");
+		userInfo.setState((byte) 0);
+		userInfo.setUsername("xuxx");
+		userList.add(userInfo);
+		logger.info(userList.toString());
+
+		data.put("userList", userList);
+		return data;
 	}
 
 	/**

@@ -17,3 +17,5 @@ spring:
     thymeleaf:
         cache: false
         mode: LEGACYHTML5
+servier:
+  port: 8080
