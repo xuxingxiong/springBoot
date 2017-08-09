@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ConfigurationProperties(prefix = "hash")
-@PropertySource("hashconfig")
+@PropertySource("classpath:hashconfig.yml")
 public class HashConfig {
 	// 散列算法:这里使用MD5算法
 	private String algorithmName;
