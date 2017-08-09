@@ -16,7 +16,7 @@ public class HomeController {
 	private Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**
-	 * 登录提交地址和applicationontext-shiro.xml配置的loginurl一致。 (配置文件方式的说法)
+	 * 登录
 	 * 
 	 * @param request
 	 * @param map

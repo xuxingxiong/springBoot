@@ -101,30 +101,12 @@ public class MyShiroRealm extends AuthorizingRealm {
 		// 实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
 		UserInfo userInfo = userInfoService.findByUsername(username);
 
-		// 权限单个添加;
-		// 或者按下面这样添加
-		// 添加一个角色,不是配置意义上的添加,而是证明该用户拥有admin角色
-		// authorizationInfo.addRole("admin");
-		// 添加权限
-		// authorizationInfo.addStringPermission("userInfo:query");
-
-		/// 在认证成功之后返回.
-		// 设置角色信息.
-		// 支持 Set集合,
-		// 用户的角色对应的所有权限，如果只使用角色定义访问权限，下面的四行可以不要
-		// List<Role> roleList=user.getRoleList();
-		// for (Role role : roleList) {
-		// info.addStringPermissions(role.getPermissionsName());
-		// }
 		for (SysRole role : userInfo.getRoleList()) {
 			authorizationInfo.addRole(role.getRole());
 			for (SysPermission p : role.getPermissions()) {
 				authorizationInfo.addStringPermission(p.getPermission());
 			}
 		}
-
-		// 设置权限信息.
-		// authorizationInfo.setStringPermissions(getStringPermissions(userInfo.getRoleList()));
 
 		return authorizationInfo;
 	}

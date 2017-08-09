@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/springboot
+        url: jdbc:mysql://localhost:3306/mysql
         username: root
         password: root
         driverClassName: com.mysql.jdbc.Driver
@@ -9,7 +9,7 @@ spring:
         show-sql: true
         open-in-view: true
         hibernate:
-            ddl-auto: update
+            ddl-auto: none
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
         properties:
             hibernate:

@@ -11,6 +11,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,6 +23,9 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 @Configuration
 public class ShiroConfig {
 	private Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+	@Autowired
+	private HashConfig hashConfig;
 
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -65,9 +69,9 @@ public class ShiroConfig {
 	public HashedCredentialsMatcher hashedCredentialsMatcher() {
 		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
 		// 散列算法:这里使用MD5算法
-		hashedCredentialsMatcher.setHashAlgorithmName("md5");
+		hashedCredentialsMatcher.setHashAlgorithmName(hashConfig.getAlgorithmName());
 		// 散列的次数，比如散列两次，相当于md5(md5(""))
-		hashedCredentialsMatcher.setHashIterations(2);
+		hashedCredentialsMatcher.setHashIterations(hashConfig.getIterations());
 		return hashedCredentialsMatcher;
 	}
 
